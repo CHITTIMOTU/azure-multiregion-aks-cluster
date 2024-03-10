@@ -22,25 +22,30 @@ module "vnet" {
   app_root            = local.root_name
   resource_group_name = module.group.name
   location            = var.location
+  vnet_cidr           = var.vnet_cidr
+  aks_address         = var.aks_address
+  gateway_address     = var.gateway_address
+  jumpbox_address     = var.jumpbox_address
+  Bastion_address     = var.Bastion_address
   nsg_id              = module.nsg.id
   tags                = var.tags
 }
 
 module "bastion" {
-  source              = "../modules/bastion"
-  app_root            = local.root_name
-  resource_group_name = module.group.name
-  location            = var.location
-  subnet_id           = module.vnet.bastion_subnet_id
-  tags                = var.tags
+source              = "../modules/bastion"
+app_root            = local.root_name
+resource_group_name = module.group.name
+location            = var.location
+subnet_id           = module.vnet.bastion_subnet_id
+tags                = var.tags
 }
 
 module "jumpbox" {
-  source              = "../modules/vm"
-  workload_name       = local.root_name
-  resource_group_name = module.group.name
-  location            = var.location
-  subnet_id           = module.vnet.jumpbox_subnet_id
-  password            = var.jumbbox_vm_password
-  tags                = var.tags
+source              = "../modules/vm"
+workload_name       = local.root_name
+resource_group_name = module.group.name
+location            = var.location
+subnet_id           = module.vnet.jumpbox_subnet_id
+password            = var.jumbbox_vm_password
+tags                = var.tags
 }
