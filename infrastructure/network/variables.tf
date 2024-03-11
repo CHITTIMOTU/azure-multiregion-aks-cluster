@@ -27,28 +27,28 @@ variable "main_instance" {
 variable "main_cidr" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.52.0/22"]
+  default     = ["10.120.56.0/22"]
 }
 
 variable "main_Bastion_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.52.0/25"]
+  default     = ["10.120.56.0/25"]
 }
 variable "main_jumpbox_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.52.128/25"]
+  default     = ["10.120.56.128/25"]
 }
 variable "main_gateway_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.53.0/24"]
+  default     = ["10.120.57.0/24"]
 }
 variable "main_aks_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.54.0/23"]
+  default     = ["10.120.58.0/23"]
 }
 
 variable "failover_instance" {
@@ -60,28 +60,28 @@ variable "failover_instance" {
 variable "failover_cidr" {
   type        = list
   description = "CIDR address space for failover V-net"
-  default     = ["10.140.52.0/22"]
+  default     = ["10.140.56.0/22"]
 }
 
 variable "failover_Bastion_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.52.0/25"]
+  default     = ["10.140.56.0/25"]
 }
 variable "failover_jumpbox_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.52.128/25"]
+  default     = ["10.140.56.128/25"]
 }
 variable "failover_gateway_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.53.0/24"]
+  default     = ["10.140.57.0/24"]
 }
 variable "failover_aks_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.54.0/23"]
+  default     = ["10.140.58.0/23"]
 }
 
 variable "jumbbox_vm_password" {
