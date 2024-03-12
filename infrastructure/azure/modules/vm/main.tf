@@ -1,3 +1,10 @@
+resource "azurerm_public_ip" "public_ip" {
+  name                = "vm_public_ip"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  allocation_method   = "Dynamic"
+}
+
 resource "azurerm_network_interface" "main" {
   name                = "nic-jumpbox-${var.workload_name}"
   resource_group_name = var.resource_group_name
@@ -7,10 +14,13 @@ resource "azurerm_network_interface" "main" {
     name                          = "subnet-config"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.public_ip.id
   }
 
   tags = var.tags
 }
+
+
 
 resource "azurerm_virtual_machine" "main" {
   name                  = "vm-jumpbox-${var.workload_name}"
