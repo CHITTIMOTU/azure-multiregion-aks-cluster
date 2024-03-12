@@ -7,6 +7,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   private_cluster_enabled = true
   oidc_issuer_enabled     = true
 
+
   default_node_pool {
     name           = var.default_namespace
     node_count     = var.node_count
@@ -18,6 +19,7 @@ resource "azurerm_kubernetes_cluster" "default" {
 
     gateway_name = "agw-${var.root_name}"
     subnet_id    = var.gateway_subnet_id
+    
   }
 
   network_profile {
@@ -25,6 +27,11 @@ resource "azurerm_kubernetes_cluster" "default" {
     dns_service_ip     = "10.0.0.10"
     docker_bridge_cidr = "172.17.0.1/16"
     service_cidr       = "10.0.0.0/16"
+  }
+
+  api_server_access_profile {
+    vnet_integration_enabled = true
+    subnet_id = var.Bastion_address
   }
 
   oms_agent {
