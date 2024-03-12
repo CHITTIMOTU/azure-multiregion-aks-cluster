@@ -31,7 +31,7 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   api_server_access_profile {
     vnet_integration_enabled = true
-    subnet_id = var.Bastion_address
+    subnet_id = var.jumpbox_subnet_id
   }
 
   oms_agent {

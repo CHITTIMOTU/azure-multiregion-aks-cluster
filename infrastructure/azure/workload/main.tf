@@ -82,6 +82,8 @@ module "aks" {
 
   aks_subnet_id     = var.aks_subnet_id
   gateway_subnet_id = var.gateway_subnet_id
+  jumpbox_subnet_id = var.jumpbox_subnet_id
+
 
   log_analytics_workspace_id = module.log.id
 
