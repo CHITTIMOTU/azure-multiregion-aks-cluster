@@ -51,9 +51,14 @@ variable "tags" {
 
 locals {
   workload_name                         = "${var.application_name}-${var.environment}-${var.instance}"
+  vnetrg_name                           = "rg-network-${var.environment}-${var.instance}"
   aks_namespace                         = "default"
   app_registration_service_account_name = "workload-identity-sa"
 }
+
+# data "azurerm_resource_group" "rg" {
+#   name = local.vnetrg_name
+# }
 
 module "group" {
   source    = "../modules/group"
@@ -73,6 +78,7 @@ module "log" {
 module "aks" {
   source              = "../modules/aks"
   root_name           = local.workload_name
+  vnetrg              = local.vnetrg_name
   resource_group_name = module.group.name
   location            = var.location
 

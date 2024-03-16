@@ -1,3 +1,28 @@
+resource "azurerm_user_assigned_identity" "aks_identity" {
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  tags                = var.tags
+
+  name = "${var.root_name}Identity"
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+}
+
+data "azurerm_resource_group" "existing" {
+  name = var.vnetrg
+}
+
+resource "azurerm_role_assignment" "network_contributor_assignment" {
+  scope                = data.azurerm_resource_group.existing.id
+  role_definition_name = "Network Contributor"
+  principal_id         = azurerm_user_assigned_identity.aks_identity.principal_id
+  skip_service_principal_aad_check = true
+}
+
 resource "azurerm_kubernetes_cluster" "default" {
   name                    = "aks-${var.root_name}"
   resource_group_name     = var.resource_group_name
@@ -21,11 +46,15 @@ resource "azurerm_kubernetes_cluster" "default" {
     subnet_id    = var.gateway_subnet_id
     
   }
+    identity {
+      type = "UserAssigned"
+      identity_ids = tolist([azurerm_user_assigned_identity.aks_identity.id])
+  }
 
   network_profile {
     network_plugin     = "azure"
     dns_service_ip     = "10.0.0.10"
-    docker_bridge_cidr = "172.17.0.1/16"
+    # docker_bridge_cidr = "172.17.0.1/16"
     service_cidr       = "10.0.0.0/16"
   }
 
@@ -38,9 +67,7 @@ resource "azurerm_kubernetes_cluster" "default" {
     log_analytics_workspace_id = var.log_analytics_workspace_id
   }
 
-  identity {
-    type = "SystemAssigned"
-  }
+
 
   tags = var.tags
 }

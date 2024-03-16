@@ -2,6 +2,10 @@ variable "root_name" {
   type = string
 }
 
+variable "vnetrg" {
+  type = string
+}
+
 variable "resource_group_name" {
   type = string
 }
@@ -42,3 +46,4 @@ variable "log_analytics_workspace_id" {
 variable "tags" {
   type = map(string)
 }
+
