@@ -102,7 +102,7 @@ module "aks" {
 
   network_dns_service_ip    = "10.2.0.10"
   network_plugin            = "azure"
-  outbound_type             = "userAssignedNATGateway"
+  outbound_type             = "loadBalancer"
   network_service_cidr      = "10.2.0.0/24"
 
   tags = var.tags
