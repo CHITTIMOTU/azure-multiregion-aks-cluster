@@ -58,7 +58,7 @@ variable "main_SystemSubnet_address" {
 variable "main_UserSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.128./25"]
+  default     = ["10.120.57.128/25"]
 }
 variable "main_PodSubnet_address" {
   type        = list
@@ -91,7 +91,7 @@ variable "failover_jumpbox_address" {
 variable "failover_gateway_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.57.64/27"]
+  default     = ["10.140.56.64/27"]
 }
 variable "failover_ApiServer_address" {
   type        = list
@@ -106,7 +106,7 @@ variable "failover_SystemSubnet_address" {
 variable "failover_UserSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.57.128./25"]
+  default     = ["10.140.57.128/25"]
 }
 variable "failover_PodSubnet_address" {
   type        = list

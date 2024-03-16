@@ -23,8 +23,8 @@ data "azurerm_subnet" "jumpbox" {
   resource_group_name  = local.rg_name
 }
 
-data "azurerm_subnet" "aks" {
-  name                 = "subnet-aks"
+data "azurerm_subnet" "aks_PodSubnet" {
+  name                 = "aks-PodSubnet"
   virtual_network_name = local.vnet_name
   resource_group_name    = local.rg_name
 }

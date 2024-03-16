@@ -10,6 +10,6 @@ output "gateway_subnet_id" {
   value = module.vnet.gateway_subnet_id
 }
 
-output "aks_subnet_id" {
-  value = module.vnet.aks_subnet_id
-}
+# output "aks_PodSubnet_id" {
+#   value = module.vnet.aks_PodSubnet_subnet_id
+# }
