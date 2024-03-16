@@ -61,7 +61,7 @@ resource "azurerm_kubernetes_cluster" "default" {
      for_each = var.web_app_routing.enabled ? [1] : []
 
      content {
-       dns_zone_id = var.web_app_routing.dns_zone_id
+       dns_zone_id = var.aks_private_dns_zone_id
      }
   }
 
