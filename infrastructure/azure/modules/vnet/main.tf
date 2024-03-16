@@ -37,11 +37,37 @@ virtual_network_name = azurerm_virtual_network.default.name
 address_prefixes     = var.gateway_address
 }
 
-resource "azurerm_subnet" "voteapp_aks" {
-  name                                           = "subnet-aks"
-  resource_group_name                            = var.resource_group_name
-  virtual_network_name                           = azurerm_virtual_network.default.name
-  enforce_private_link_endpoint_network_policies = false
-  address_prefixes                               = var.aks_address
-  service_endpoints                              = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+
+
+resource "azurerm_subnet" "aks_SystemSubnet" {
+  name                  = "aks-SystemSubnet"
+  resource_group_name   = var.resource_group_name
+  virtual_network_name  = azurerm_virtual_network.default.name
+  address_prefixes      = var.SystemSubnet_address
+  service_endpoints     = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+}
+
+
+resource "azurerm_subnet" "aks_UserSubnet" {
+  name                  = "aks-UserSubnet"
+  resource_group_name   = var.resource_group_name
+  virtual_network_name  = azurerm_virtual_network.default.name
+  address_prefixes      = var.UserSubnet_address
+  service_endpoints     = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+}
+
+resource "azurerm_subnet" "aks_PodSubnet" {
+  name                  = "aks-PodSubnet"
+  resource_group_name   = var.resource_group_name
+  virtual_network_name  = azurerm_virtual_network.default.name
+  address_prefixes      = var.PodSubnet_address
+  service_endpoints     = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+}
+
+resource "azurerm_subnet" "aks_ApiServer" {
+  name                  = "aks-ApiServer"
+  resource_group_name   = var.resource_group_name
+  virtual_network_name  = azurerm_virtual_network.default.name
+  address_prefixes      = var.ApiServer_address
+  service_endpoints     = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
 }

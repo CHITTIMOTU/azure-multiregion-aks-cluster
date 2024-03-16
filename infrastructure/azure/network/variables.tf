@@ -18,7 +18,19 @@ variable "gateway_address" {
   type = list
 }
 
-variable "aks_address" {
+variable "SystemSubnet_address" {
+  type = list
+}
+
+variable "UserSubnet_address" {
+  type = list
+}
+
+variable "PodSubnet_address" {
+  type = list
+}
+
+variable "ApiServer_address" {
   type = list
 }
 

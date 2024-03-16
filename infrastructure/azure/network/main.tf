@@ -23,10 +23,13 @@ module "vnet" {
   resource_group_name = module.group.name
   location            = var.location
   vnet_cidr           = var.vnet_cidr
-  aks_address         = var.aks_address
+  SystemSubnet_address   = var.SystemSubnet_address
+  UserSubnet_address     = var.UserSubnet_address
+  PodSubnet_address      = var.PodSubnet_address
+  ApiServer_address      = var.ApiServer_address
+  Bastion_address        = var.Bastion_address
   gateway_address     = var.gateway_address
   jumpbox_address     = var.jumpbox_address
-  Bastion_address     = var.Bastion_address
   nsg_id              = module.nsg.id
   tags                = var.tags
 }

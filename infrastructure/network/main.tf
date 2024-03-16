@@ -25,7 +25,10 @@ module "network_main" {
   source              = "../azure/network"
   location            = var.main_location
   vnet_cidr           = var.main_cidr
-  aks_address         = var.main_aks_address
+  SystemSubnet_address   = var.main_SystemSubnet_address
+  UserSubnet_address     = var.main_UserSubnet_address
+  PodSubnet_address      = var.main_PodSubnet_address
+  ApiServer_address      = var.main_ApiServer_address
   gateway_address     = var.main_gateway_address
   jumpbox_address     = var.main_jumpbox_address
   Bastion_address     = var.main_Bastion_address
@@ -39,7 +42,10 @@ module "network_failover" {
   source              = "../azure/network"
   location            = var.failover_location
   vnet_cidr           = var.failover_cidr
-  aks_address         = var.failover_aks_address
+  SystemSubnet_address = var.failover_SystemSubnet_address
+  UserSubnet_address     = var.failover_UserSubnet_address
+  PodSubnet_address      = var.failover_PodSubnet_address
+  ApiServer_address      = var.failover_ApiServer_address
   gateway_address     = var.failover_gateway_address
   jumpbox_address     = var.failover_jumpbox_address
   Bastion_address     = var.failover_Bastion_address

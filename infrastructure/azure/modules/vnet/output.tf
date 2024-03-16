@@ -10,6 +10,6 @@ output "gateway_subnet_id" {
   value = azurerm_subnet.voteapp_gateway.id
 }
 
-output "aks_subnet_id" {
-  value = azurerm_subnet.voteapp_aks.id
+output "aks_SystemSubnet_id" {
+  value = azurerm_subnet.aks_PodSubnet.id
 }
