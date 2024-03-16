@@ -57,10 +57,17 @@ resource "azurerm_kubernetes_cluster" "default" {
     outbound_type      = var.outbound_type
     service_cidr       = var.network_service_cidr
   }
+    dynamic "web_app_routing" {
+     for_each = var.web_app_routing.enabled ? [1] : []
+
+     content {
+       dns_zone_id = var.web_app_routing.dns_zone_id
+     }
+  }
 
   api_server_access_profile {
-    vnet_integration_enabled = true
     subnet_id = var.aks_ApiServer_id
+    vnet_integration_enabled = true
   }
 
   oms_agent {

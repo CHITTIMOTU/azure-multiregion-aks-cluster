@@ -96,3 +96,33 @@ variable "vertical_pod_autoscaler_enabled" {
   type        = bool
   default     = true
 }
+
+variable "dns_zone_name" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+  default = null
+}
+
+variable "dns_zone_resource_group_name" {
+  description = "Specifies the name of the resource group that contains the DNS zone."
+  type = string
+  default = null
+}
+
+variable "web_app_routing_enabled" {
+  description = "(Optional) Should Web App Routing be enabled?"
+  type        = bool
+  default     = false
+}
+
+variable "web_app_routing" {
+  description   = "Specifies the Application HTTP Routing addon configuration."
+  type          = object({
+    enabled     = bool
+    dns_zone_id = string
+  })
+  default       = {
+    enabled     = false           
+    dns_zone_id = null
+  }
+}

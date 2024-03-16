@@ -41,6 +41,30 @@ variable "failover_instance" {
   default     = "002"
 }
 
+variable "main_dns_zone_name" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+  default = "private.southeastasia.azmk8s.io"
+}
+
+variable "main_dns_zone_resource_group_name" {
+  description = "Specifies the name of the resource group that contains the DNS zone."
+  type = string
+  default = "mahb-dns"
+}
+
+variable "failover_dns_zone_name" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+  default = "private.eastasia.azmk8s.io"
+}
+
+variable "failover_dns_zone_resource_group_name" {
+  description = "Specifies the name of the resource group that contains the DNS zone."
+  type = string
+  default = "mahb-dns-eastasia"
+}
+
 ### AKS
 
 variable "aks_vm_size" {
