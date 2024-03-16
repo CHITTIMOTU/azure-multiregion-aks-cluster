@@ -52,10 +52,10 @@ resource "azurerm_kubernetes_cluster" "default" {
   }
 
   network_profile {
-    network_plugin     = "azure"
-    dns_service_ip     = "10.0.0.10"
-    # docker_bridge_cidr = "172.17.0.1/16"
-    service_cidr       = "10.0.0.0/16"
+    dns_service_ip     = var.network_dns_service_ip
+    network_plugin     = var.network_plugin
+    outbound_type      = var.outbound_type
+    service_cidr       = var.network_service_cidr
   }
 
   api_server_access_profile {
@@ -73,52 +73,43 @@ resource "azurerm_kubernetes_cluster" "default" {
 }
 
 
-# resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
-#   name                       = "Application Gateway Logs"
-#   target_resource_id         = azurerm_kubernetes_cluster.default.ingress_application_gateway[0].effective_gateway_id
-#   log_analytics_workspace_id = var.log_analytics_workspace_id
+resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
+  name                       = "Application Gateway Logs"
+  target_resource_id         = azurerm_kubernetes_cluster.default.ingress_application_gateway[0].effective_gateway_id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
 
-#   log {
-#     category = "ApplicationGatewayAccessLog"
-#     enabled  = true
+  enabled_log {
+    category = "kube-apiserver"
+  }
 
-#     retention_policy {
-#       days    = 7
-#       enabled = true
-#     }
-#   }
+  enabled_log {
+    category = "kube-audit"
+  }
 
-#   log {
-#     category = "ApplicationGatewayPerformanceLog"
-#     enabled  = true
+  enabled_log {
+    category = "kube-audit-admin"
+  }
 
-#     retention_policy {
-#       days    = 7
-#       enabled = true
-#     }
-#   }
+  enabled_log {
+    category = "kube-controller-manager"
+  }
 
-#   log {
-#     category = "ApplicationGatewayFirewallLog"
-#     enabled  = true
+  enabled_log {
+    category = "kube-scheduler"
+  }
 
-#     retention_policy {
-#       days    = 7
-#       enabled = true
-#     }
-#   }
+  enabled_log {
+    category = "cluster-autoscaler"
+  }
 
-#   metric {
-#     category = "AllMetrics"
-#     enabled  = true
+  enabled_log {
+    category = "guard"
+  }
 
-#     retention_policy {
-#       days    = 7
-#       enabled = true
-#     }
-#   }
-
-# }
+  metric {
+    category = "AllMetrics"
+  }
+}
 
 data "azurerm_public_ip" "default" {
   name                = "agw-${var.root_name}-appgwpip"

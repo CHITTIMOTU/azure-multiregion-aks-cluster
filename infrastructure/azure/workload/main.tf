@@ -98,10 +98,12 @@ module "aks" {
   aks_Pod_id        = var.aks_Pod_id
   gateway_subnet_id = var.gateway_subnet_id
   aks_ApiServer_id  = var.aks_ApiServer_id
-
-
-
   log_analytics_workspace_id = module.log.id
+
+  network_dns_service_ip    = "10.2.0.10"
+  network_plugin            = "azure"
+  outbound_type             = "userAssignedNATGateway"
+  network_service_cidr      = "10.2.0.0/24"
 
   tags = var.tags
 }

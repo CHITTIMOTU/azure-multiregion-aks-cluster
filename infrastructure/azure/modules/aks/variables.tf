@@ -54,3 +54,33 @@ variable "tags" {
   type = map(string)
 }
 
+########################
+
+variable "network_dns_service_ip" {
+  description = "Specifies the DNS service IP"
+  default     = "10.2.0.10"
+  type        = string
+}
+
+variable "network_service_cidr" {
+  description = "Specifies the service CIDR"
+  default     = "10.2.0.0/24"
+  type        = string
+}
+
+variable "network_plugin" {
+  description = "Specifies the network plugin of the AKS cluster"
+  default     = "azure"
+  type        = string
+}
+
+variable "outbound_type" {
+  description = "(Optional) The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer and userDefinedRouting. Defaults to loadBalancer."
+  type        = string
+  default     = "userDefinedRouting"
+
+  validation {
+    condition = contains(["loadBalancer", "userDefinedRouting", "userAssignedNATGateway", "managedNATGateway"], var.outbound_type)
+    error_message = "The outbound type is invalid."
+  }
+}
