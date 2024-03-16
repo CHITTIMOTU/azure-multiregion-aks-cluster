@@ -84,3 +84,15 @@ variable "outbound_type" {
     error_message = "The outbound type is invalid."
   }
 }
+
+variable "keda_enabled" {
+  description = "(Optional) Specifies whether KEDA Autoscaler can be used for workloads."
+  type        = bool
+  default     = true
+}
+
+variable "vertical_pod_autoscaler_enabled" {
+  description = "(Optional) Specifies whether Vertical Pod Autoscaler should be enabled."
+  type        = bool
+  default     = true
+}

@@ -67,15 +67,26 @@ resource "azurerm_kubernetes_cluster" "default" {
     log_analytics_workspace_id = var.log_analytics_workspace_id
   }
 
+  key_vault_secrets_provider {
+    secret_rotation_enabled  = true
+    secret_rotation_interval = "2m" 
+  }
+
+  workload_autoscaler_profile {
+    keda_enabled                    = var.keda_enabled
+    vertical_pod_autoscaler_enabled = var.vertical_pod_autoscaler_enabled
+  }
 
 
   tags = var.tags
+
+
 }
 
 
 resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
   name                       = "Application Gateway Logs"
-  target_resource_id         = azurerm_kubernetes_cluster.default.ingress_application_gateway[0].effective_gateway_id
+  target_resource_id         = azurerm_kubernetes_cluster.default.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
   enabled_log {

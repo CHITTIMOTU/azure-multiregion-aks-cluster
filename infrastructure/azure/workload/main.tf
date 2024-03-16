@@ -105,6 +105,9 @@ module "aks" {
   outbound_type             = "loadBalancer"
   network_service_cidr      = "10.2.0.0/24"
 
+  keda_enabled                     = true
+  vertical_pod_autoscaler_enabled  = true
+
   tags = var.tags
 }
 
