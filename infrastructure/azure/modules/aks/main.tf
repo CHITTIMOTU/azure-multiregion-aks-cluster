@@ -73,52 +73,52 @@ resource "azurerm_kubernetes_cluster" "default" {
 }
 
 
-resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
-  name                       = "Application Gateway Logs"
-  target_resource_id         = azurerm_kubernetes_cluster.default.ingress_application_gateway[0].effective_gateway_id
-  log_analytics_workspace_id = var.log_analytics_workspace_id
+# resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
+#   name                       = "Application Gateway Logs"
+#   target_resource_id         = azurerm_kubernetes_cluster.default.ingress_application_gateway[0].effective_gateway_id
+#   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  log {
-    category = "ApplicationGatewayAccessLog"
-    enabled  = true
+#   log {
+#     category = "ApplicationGatewayAccessLog"
+#     enabled  = true
 
-    retention_policy {
-      days    = 7
-      enabled = true
-    }
-  }
+#     retention_policy {
+#       days    = 7
+#       enabled = true
+#     }
+#   }
 
-  log {
-    category = "ApplicationGatewayPerformanceLog"
-    enabled  = true
+#   log {
+#     category = "ApplicationGatewayPerformanceLog"
+#     enabled  = true
 
-    retention_policy {
-      days    = 7
-      enabled = true
-    }
-  }
+#     retention_policy {
+#       days    = 7
+#       enabled = true
+#     }
+#   }
 
-  log {
-    category = "ApplicationGatewayFirewallLog"
-    enabled  = true
+#   log {
+#     category = "ApplicationGatewayFirewallLog"
+#     enabled  = true
 
-    retention_policy {
-      days    = 7
-      enabled = true
-    }
-  }
+#     retention_policy {
+#       days    = 7
+#       enabled = true
+#     }
+#   }
 
-  metric {
-    category = "AllMetrics"
-    enabled  = true
+#   metric {
+#     category = "AllMetrics"
+#     enabled  = true
 
-    retention_policy {
-      days    = 7
-      enabled = true
-    }
-  }
+#     retention_policy {
+#       days    = 7
+#       enabled = true
+#     }
+#   }
 
-}
+# }
 
 data "azurerm_public_ip" "default" {
   name                = "agw-${var.root_name}-appgwpip"
