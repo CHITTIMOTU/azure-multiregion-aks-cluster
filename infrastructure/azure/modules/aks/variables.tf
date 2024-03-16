@@ -27,7 +27,7 @@ variable "vm_size" {
   type = string
 }
 
-variable "aks_subnet_id" {
+variable "aks_System_id" {
   type = string
 }
 
@@ -35,7 +35,14 @@ variable "gateway_subnet_id" {
   type = string
 }
 
-variable "jumpbox_subnet_id" {
+variable "aks_Pod_id" {
+  type = string
+}
+
+variable "aks_ApiServer_id" {
+  type = string
+}
+variable "aks_User_id" {
   type = string
 }
 

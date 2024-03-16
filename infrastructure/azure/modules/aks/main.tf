@@ -37,7 +37,7 @@ resource "azurerm_kubernetes_cluster" "default" {
     name           = var.default_namespace
     node_count     = var.node_count
     vm_size        = var.vm_size
-    vnet_subnet_id = var.aks_subnet_id
+    vnet_subnet_id = var.aks_System_id
   }
 
   ingress_application_gateway {
@@ -60,7 +60,7 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   api_server_access_profile {
     vnet_integration_enabled = true
-    subnet_id = var.jumpbox_subnet_id
+    subnet_id = var.aks_ApiServer_id
   }
 
   oms_agent {

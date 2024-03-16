@@ -19,7 +19,19 @@ variable "gateway_subnet_id" {
   type = string
 }
 
-variable "aks_subnet_id" {
+variable "aks_System_id" {
+  type = string
+}
+
+variable "aks_Pod_id" {
+  type = string
+}
+
+variable "aks_User_id" {
+  type = string
+}
+
+variable "aks_ApiServer_id" {
   type = string
 }
 
@@ -31,10 +43,10 @@ variable "backup_jumpbox_subnet_id" {
   type = string
 }
 
-variable "cosmos_primary_connection_tring" {
-  type      = string
-  sensitive = true
-}
+# variable "cosmos_primary_connection_tring" {
+#   type      = string
+#   sensitive = true
+# }
 
 variable "aks_vm_size" {
   type = string
@@ -55,10 +67,6 @@ locals {
   aks_namespace                         = "default"
   app_registration_service_account_name = "workload-identity-sa"
 }
-
-# data "azurerm_resource_group" "rg" {
-#   name = local.vnetrg_name
-# }
 
 module "group" {
   source    = "../modules/group"
@@ -85,10 +93,12 @@ module "aks" {
   default_namespace = local.aks_namespace
   vm_size           = var.aks_vm_size
   node_count        = var.aks_node_count
-
-  aks_subnet_id     = var.aks_subnet_id
+  aks_System_id     = var.aks_System_id
+  aks_User_id       = var.aks_User_id
+  aks_Pod_id        = var.aks_Pod_id
   gateway_subnet_id = var.gateway_subnet_id
-  jumpbox_subnet_id = var.jumpbox_subnet_id
+  aks_ApiServer_id  = var.aks_ApiServer_id
+
 
 
   log_analytics_workspace_id = module.log.id
@@ -105,15 +115,15 @@ module "app_registration" {
 }
 
 
-module "kv" {
-  source                          = "../modules/keyvault"
-  root_name                       = local.workload_name
-  resource_group_name             = module.group.name
-  location                        = var.location
-  aks_subnet_id                   = var.aks_subnet_id
-  jumpbox_subnet_id               = var.jumpbox_subnet_id
-  backup_jumpbox_subnet_id        = var.backup_jumpbox_subnet_id
-  aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
-  cosmos_connection_string        = var.cosmos_primary_connection_tring
-  tags                            = var.tags
-}
+# module "kv" {
+#   source                          = "../modules/keyvault"
+#   root_name                       = local.workload_name
+#   resource_group_name             = module.group.name
+#   location                        = var.location
+#   aks_subnet_id                   = var.aks_Pod_id
+#   jumpbox_subnet_id               = var.jumpbox_subnet_id
+#   backup_jumpbox_subnet_id        = var.backup_jumpbox_subnet_id
+#   aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
+#   cosmos_connection_string        = var.cosmos_primary_connection_tring
+#   tags                            = var.tags
+# }
