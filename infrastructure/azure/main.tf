@@ -83,7 +83,8 @@ module "workload_main" {
   location          = var.main_location
   environment       = var.environment
   instance          = var.main_instance
-  # dns_zone_name     = var.main_dns_zone_name
+  dns_zone_name     = var.main_dns_zone_name
+  dns_zone_resource_group_name = var.main_dns_zone_resource_group_name
   aks_private_dns_zone_id = var.main_aks_private_dns_zone_id
   gateway_subnet_id    = module.subnets_main.gateway_subnet_id
   aks_System_id        = module.subnets_main.aks_System_id
@@ -106,7 +107,8 @@ module "workload_failover" {
   application_name  = var.application_name
   location          = var.failover_location
   environment       = var.environment
-  # dns_zone_name     = var.failover_dns_zone_name
+  dns_zone_name     = var.failover_dns_zone_name
+  dns_zone_resource_group_name = var.failover_dns_zone_resource_group_name
   aks_private_dns_zone_id = var.failover_aks_private_dns_zone_id
   instance          = var.failover_instance
   gateway_subnet_id   = module.subnets_failover.gateway_subnet_id

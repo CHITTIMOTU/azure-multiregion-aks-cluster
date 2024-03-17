@@ -61,10 +61,15 @@ variable "tags" {
   type = map(string)
 }
 
-# variable "dns_zone_name" {
-#   description = "Specifies the name of the DNS zone."
-#   type = string
-# }
+variable "dns_zone_name" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+}
+
+variable "dns_zone_resource_group_name" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+}
 
 variable "aks_private_dns_zone_id" {
   description = "Specifies the name of the resource group that contains the DNS zone."
@@ -94,12 +99,12 @@ provider "azurerm" {
   subscription_id = "2c22ccdb-ba3a-45b0-b2f7-70cc02a39b0a"
 }
 
-# data "azurerm_dns_zone" "dns_zone" {
-#   provider            = azurerm.secondary
-#   count               = var.dns_zone_name != null && var.dns_zone_resource_group_name != null ? 1 : 0
-#   name                = var.dns_zone_name
-#   resource_group_name = var.dns_zone_resource_group_name
-# }
+data "azurerm_dns_zone" "dns_zone" {
+  provider            = azurerm.secondary
+  count               = var.dns_zone_name != null && var.dns_zone_resource_group_name != null ? 1 : 0
+  name                = var.dns_zone_name
+  resource_group_name = var.dns_zone_resource_group_name
+}
 
 locals {
   workload_name                         = "${var.application_name}-${var.environment}-${var.instance}"

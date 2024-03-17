@@ -41,23 +41,23 @@ variable "failover_instance" {
   default     = "002"
 }
 
-# variable "main_dns_zone_name" {
-#   description = "Specifies the name of the DNS zone."
-#   type = string
-#   default = "private.southeastasia.azmk8s.io"
-# }
+variable "main_dns_zone_name" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+  default = "private.southeastasia.azmk8s.io"
+}
 
-# variable "main_dns_zone_resource_group_name" {
-#   description = "Specifies the name of the resource group that contains the DNS zone."
-#   type = string
-#   default = "mahb-dns"
-# }
+variable "main_dns_zone_resource_group_name" {
+  description = "Specifies the name of the resource group that contains the DNS zone."
+  type = string
+  default = "mahb-dns"
+}
 
-# variable "failover_dns_zone_name" {
-#   description = "Specifies the name of the DNS zone."
-#   type = string
-#   default = "private.eastasia.azmk8s.io"
-# }
+variable "failover_dns_zone_name" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+  default = "private.eastasia.azmk8s.io"
+}
 
 variable "main_aks_private_dns_zone_id" {
   description = "Specifies the name of the DNS zone."
@@ -70,11 +70,11 @@ variable "failover_aks_private_dns_zone_id" {
   default = "/subscriptions/2c22ccdb-ba3a-45b0-b2f7-70cc02a39b0a/resourceGroups/MAHB-DNS-eastasia/providers/Microsoft.Network/privateDnsZones/private.eastasia.azmk8s.io"
 }
 
-# variable "failover_dns_zone_resource_group_name" {
-#   description = "Specifies the name of the resource group that contains the DNS zone."
-#   type = string
-#   default = "mahb-dns-eastasia"
-# }
+variable "failover_dns_zone_resource_group_name" {
+  description = "Specifies the name of the resource group that contains the DNS zone."
+  type = string
+  default = "mahb-dns-eastasia"
+}
 
 ### AKS
 
