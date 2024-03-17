@@ -17,9 +17,9 @@ data "azurerm_resource_group" "existing" {
 }
 
 resource "azurerm_role_assignment" "network_contributor_assignment" {
-  scope                = data.azurerm_resource_group.existing.id
-  role_definition_name = "Network Contributor"
-  principal_id         = azurerm_user_assigned_identity.aks_identity.principal_id
+  scope                            = data.azurerm_resource_group.existing.id
+  role_definition_name             = "Network Contributor"
+  principal_id                     = azurerm_user_assigned_identity.aks_identity.principal_id
   skip_service_principal_aad_check = true
 }
 
@@ -44,34 +44,29 @@ resource "azurerm_kubernetes_cluster" "default" {
 
     gateway_name = "agw-${var.root_name}"
     subnet_id    = var.gateway_subnet_id
-    
+
   }
-    identity {
-      type = "UserAssigned"
-      identity_ids = tolist([azurerm_user_assigned_identity.aks_identity.id])
+  identity {
+    type         = "UserAssigned"
+    identity_ids = tolist([azurerm_user_assigned_identity.aks_identity.id])
   }
 
   network_profile {
-    dns_service_ip     = var.network_dns_service_ip
-    network_plugin     = var.network_plugin
-    outbound_type      = var.outbound_type
-    service_cidr       = var.network_service_cidr
+    dns_service_ip = var.network_dns_service_ip
+    network_plugin = var.network_plugin
+    outbound_type  = var.outbound_type
+    service_cidr   = var.network_service_cidr
   }
-  #   dynamic "web_app_routing" {
-  #    for_each = var.web_app_routing.enabled ? [1] : []
+  dynamic "web_app_routing" {
+    for_each = var.web_app_routing.enabled ? [1] : []
 
-  #    content {
-  #      dns_zone_id = var.aks_private_dns_zone_id
-  #    }
-  # }
-  
-  web_app_routing {
-    
-    dns_zone_id = var.aks_private_dns_zone_id
+    content {
+      dns_zone_id = var.web_app_routing.dns_zone_id
+    }
   }
 
   api_server_access_profile {
-    subnet_id = var.aks_ApiServer_id
+    subnet_id                = var.aks_ApiServer_id
     vnet_integration_enabled = true
   }
 
@@ -81,7 +76,7 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   key_vault_secrets_provider {
     secret_rotation_enabled  = true
-    secret_rotation_interval = "2m" 
+    secret_rotation_interval = "2m"
   }
 
   workload_autoscaler_profile {

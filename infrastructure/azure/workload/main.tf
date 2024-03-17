@@ -147,15 +147,15 @@ module "aks" {
 
   keda_enabled                     = true
   vertical_pod_autoscaler_enabled  = true
-  web_app_routing_enabled          = true
+  # web_app_routing_enabled          = true
   
   aks_private_dns_zone_id      = var.aks_private_dns_zone_id
   
 
-  # web_app_routing                         = {
-  #                                           enabled     = true
-  #                                           dns_zone_id = length(data.azurerm_dns_zone.dns_zone) > 0 ? element(data.azurerm_dns_zone.dns_zone[*].id, 0) : ""
-  #                                         }
+  web_app_routing                         = {
+                                            enabled     = true
+                                            dns_zone_id = length(data.azurerm_dns_zone.dns_zone) > 0 ? element(data.azurerm_dns_zone.dns_zone[*].id, 0) : ""
+                                          }
 
   tags = var.tags
 

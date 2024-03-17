@@ -109,24 +109,19 @@ variable "dns_zone_resource_group_name" {
   default = null
 }
 
-variable "web_app_routing_enabled" {
-  description = "(Optional) Should Web App Routing be enabled?"
-  type        = bool
-}
-
 variable "aks_private_dns_zone_id" {
   description = "(Optional) Should Web App Routing be enabled?"
   type        = string
 }
 
-# variable "web_app_routing" {
-#   description   = "Specifies the Application HTTP Routing addon configuration."
-#   type          = object({
-#     enabled     = bool
-#     dns_zone_id = string
-#   })
-#   default       = {
-#     enabled     = false           
-#     dns_zone_id = null
-#   }
-# }
+variable "web_app_routing" {
+  description   = "Specifies the Application HTTP Routing addon configuration."
+  type          = object({
+    enabled     = bool
+    dns_zone_id = string
+  })
+  default       = {
+    enabled     = false           
+    dns_zone_id = null
+  }
+}
