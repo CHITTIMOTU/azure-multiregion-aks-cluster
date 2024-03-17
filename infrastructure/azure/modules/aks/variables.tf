@@ -103,6 +103,12 @@ variable "dns_zone_name" {
   default = null
 }
 
+variable "private_dns_zone_id" {
+  description = "Specifies the name of the DNS zone."
+  type = string
+  default = null
+}
+
 variable "dns_zone_resource_group_name" {
   description = "Specifies the name of the resource group that contains the DNS zone."
   type = string

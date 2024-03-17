@@ -23,6 +23,12 @@ resource "azurerm_role_assignment" "network_contributor_assignment" {
   skip_service_principal_aad_check = true
 }
 
+resource "azurerm_role_assignment" "private_dns" {
+  scope                = var.aks_private_dns_zone_id
+  role_definition_name = "Private DNS Zone Contributor"
+  principal_id         = azurerm_user_assigned_identity.aks_identity.principal_id
+}
+
 resource "azurerm_kubernetes_cluster" "default" {
   name                    = "aks-${var.root_name}"
   resource_group_name     = var.resource_group_name
@@ -31,7 +37,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   node_resource_group     = "rg-k8s-${var.root_name}"
   private_cluster_enabled = true
   oidc_issuer_enabled     = true
-
+  private_dns_zone_id     = var.aks_private_dns_zone_id
 
   default_node_pool {
     name           = var.default_namespace
@@ -57,13 +63,13 @@ resource "azurerm_kubernetes_cluster" "default" {
     outbound_type  = var.outbound_type
     service_cidr   = var.network_service_cidr
   }
-  dynamic "web_app_routing" {
-    for_each = var.web_app_routing.enabled ? [1] : []
+  # dynamic "web_app_routing" {
+  #   for_each = var.web_app_routing.enabled ? [1] : []
 
-    content {
-      dns_zone_id = var.web_app_routing.dns_zone_id
-    }
-  }
+  #   content {
+  #     dns_zone_id = var.web_app_routing.dns_zone_id
+  #   }
+  # }
 
   api_server_access_profile {
     subnet_id                = var.aks_ApiServer_id

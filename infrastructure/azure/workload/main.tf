@@ -93,18 +93,18 @@ variable "aks_private_dns_zone_id" {
 #   }
 # }
 
-provider "azurerm" {
-  alias           = "secondary"
-  features {}
-  subscription_id = "2c22ccdb-ba3a-45b0-b2f7-70cc02a39b0a"
-}
+# provider "azurerm" {
+#   alias           = "secondary"
+#   features {}
+#   subscription_id = "2c22ccdb-ba3a-45b0-b2f7-70cc02a39b0a"
+# }
 
-data "azurerm_dns_zone" "dns_zone" {
-  provider            = azurerm.secondary
-  count               = var.dns_zone_name != null && var.dns_zone_resource_group_name != null ? 1 : 0
-  name                = var.dns_zone_name
-  resource_group_name = var.dns_zone_resource_group_name
-}
+# data "azurerm_dns_zone" "dns_zone" {
+#   provider            = azurerm.secondary
+#   count               = var.dns_zone_name != null && var.dns_zone_resource_group_name != null ? 1 : 0
+#   name                = var.dns_zone_name
+#   resource_group_name = var.dns_zone_resource_group_name
+# }
 
 locals {
   workload_name                         = "${var.application_name}-${var.environment}-${var.instance}"
@@ -134,6 +134,7 @@ module "aks" {
   vnetrg              = local.vnetrg_name
   resource_group_name = module.group.name
   location            = var.location
+  aks_private_dns_zone_id = var.aks_private_dns_zone_id
 
   default_namespace = local.aks_namespace
   vm_size           = var.aks_vm_size
@@ -154,13 +155,10 @@ module "aks" {
   vertical_pod_autoscaler_enabled  = true
   # web_app_routing_enabled          = true
   
-  aks_private_dns_zone_id      = var.aks_private_dns_zone_id
-  
-
-  web_app_routing                         = {
-                                            enabled     = true
-                                            dns_zone_id = length(data.azurerm_dns_zone.dns_zone) > 0 ? element(data.azurerm_dns_zone.dns_zone[*].id, 0) : ""
-                                          }
+  # web_app_routing                         = {
+  #                                           enabled     = true
+  #                                           dns_zone_id = length(data.azurerm_dns_zone.dns_zone) > 0 ? element(data.azurerm_dns_zone.dns_zone[*].id, 0) : ""
+  #                                         }
 
   tags = var.tags
 
