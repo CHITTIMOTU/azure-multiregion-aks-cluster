@@ -132,10 +132,10 @@ variable "node_count" {
   default       = 3
 }
 
-# variable resource_group_name {
-#   description = "Specifies the name of the resource group."
-#   type        = string
-# }
+variable resource_group_name {
+  description = "Specifies the name of the resource group."
+  type        = string
+}
 
 variable "oidc_issuer_enabled" {
   description = " (Optional) Enable or Disable the OIDC issuer URL."

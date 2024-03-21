@@ -277,7 +277,7 @@ module "aks" {
 
 module "node_pool" {
   source = "../modules/node_pool"
-  # resource_group_name         = azurerm_resource_group.rg.name
+  resource_group_name         = module.group.name
   kubernetes_cluster_id       = module.aks.id
   name                         = var.user_node_pool_name
   vm_size                      = var.user_node_pool_vm_size
