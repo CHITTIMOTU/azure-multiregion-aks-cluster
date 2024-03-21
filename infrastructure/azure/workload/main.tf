@@ -203,6 +203,18 @@ variable "user_node_pool_min_count" {
   default       = 3
 }
 
+variable "user_node_pool_node_count" {
+  description = "(Optional) The initial number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000 and must be a value in the range min_count - max_count."
+  type          = number
+  default       = 3
+}
+
+variable "kubernetes_version" {
+  description = "Specifies the AKS Kubernetes version"
+  type        = string
+  default       = "1.27.9"
+}
+
 
 locals {
   workload_name                         = "${var.application_name}-${var.environment}-${var.instance}"
@@ -264,17 +276,17 @@ module "aks" {
 
 
 module "node_pool" {
-  source = "./modules/node_pool"
-  resource_group_name = azurerm_resource_group.rg.name
-  kubernetes_cluster_id = module.aks_cluster.id
+  source = "../modules/node_pool"
+  # resource_group_name         = azurerm_resource_group.rg.name
+  kubernetes_cluster_id       = module.aks.id
   name                         = var.user_node_pool_name
   vm_size                      = var.user_node_pool_vm_size
   mode                         = var.user_node_pool_mode
   node_labels                  = var.user_node_pool_node_labels
   node_taints                  = var.user_node_pool_node_taints
   availability_zones           = var.user_node_pool_availability_zones
-  vnet_subnet_id               = module.virtual_network.subnet_ids[var.user_node_pool_subnet_name]
-  pod_subnet_id                = module.virtual_network.subnet_ids[var.pod_subnet_name]
+  vnet_subnet_id               = var.aks_User_id
+  pod_subnet_id                = var.aks_Pod_id
   enable_auto_scaling          = var.user_node_pool_enable_auto_scaling
   enable_host_encryption       = var.user_node_pool_enable_host_encryption
   enable_node_public_ip        = var.user_node_pool_enable_node_public_ip
