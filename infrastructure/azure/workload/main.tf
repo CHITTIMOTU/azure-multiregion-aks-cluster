@@ -40,14 +40,20 @@ variable "jumpbox_subnet_id" {
   type = string
 }
 
+variable "Main_hub_subnet_id" {
+  type = string
+  default = "/subscriptions/2c22ccdb-ba3a-45b0-b2f7-70cc02a39b0a/resourceGroups/MAHB-connectivity/providers/Microsoft.Network/virtualNetworks/MAHB-hub-southeastasia/subnets/Management_Subnet"
+}
+
+
 variable "backup_jumpbox_subnet_id" {
   type = string
 }
 
-# variable "cosmos_primary_connection_tring" {
-#   type      = string
-#   sensitive = true
-# }
+variable "cosmos_primary_connection_tring" {
+  type      = string
+  sensitive = true
+}
 
 variable "aks_vm_size" {
   type = string
@@ -173,15 +179,33 @@ module "app_registration" {
 }
 
 
-# module "kv" {
-#   source                          = "../modules/keyvault"
-#   root_name                       = local.workload_name
-#   resource_group_name             = module.group.name
-#   location                        = var.location
-#   aks_subnet_id                   = var.aks_Pod_id
-#   jumpbox_subnet_id               = var.jumpbox_subnet_id
-#   backup_jumpbox_subnet_id        = var.backup_jumpbox_subnet_id
-#   aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
-#   cosmos_connection_string        = var.cosmos_primary_connection_tring
-#   tags                            = var.tags
-# }
+module "kv" {
+  source                          = "../modules/keyvault"
+  root_name                       = local.workload_name
+  resource_group_name             = module.group.name
+  location                        = var.location
+  aks_subnet_id                   = var.aks_Pod_id
+  jumpbox_subnet_id               = var.jumpbox_subnet_id
+  backup_jumpbox_subnet_id        = var.backup_jumpbox_subnet_id
+  Main_hub_subnet_id              = var.Main_hub_subnet_id
+  aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
+  cosmos_connection_string        = var.cosmos_primary_connection_tring
+  tags                            = var.tags
+}
+
+
+module "helm" {
+  source                              = "../../helm"
+  # host                                = module.default.host
+  username                            = module.aks.username
+  password                            = module.aks.password
+  # client_key                          = module.aks_cluster.client_key
+  # client_certificate                  = module.aks_cluster.client_certificate
+  # cluster_ca_certificate              = module.aks_cluster.cluster_ca_certificate
+  # namespace                           = var.namespace
+  # service_account_name                = var.service_account_name
+  # email                               = var.email
+  # tenant_id                           = data.azurerm_client_config.current.tenant_id
+  # workload_managed_identity_client_id = azurerm_user_assigned_identity.aks_workload_identity.client_id
+  # nginx_replica_count                 = 3
+}

@@ -37,7 +37,9 @@ resource "azurerm_kubernetes_cluster" "default" {
   node_resource_group     = "rg-k8s-${var.root_name}"
   private_cluster_enabled = true
   oidc_issuer_enabled     = true
+  workload_identity_enabled        = true
   private_dns_zone_id     = var.aks_private_dns_zone_id
+  local_account_disabled = true
 
   default_node_pool {
     name           = var.default_namespace
@@ -55,6 +57,12 @@ resource "azurerm_kubernetes_cluster" "default" {
   identity {
     type         = "UserAssigned"
     identity_ids = tolist([azurerm_user_assigned_identity.aks_identity.id])
+  }
+
+  azure_active_directory_role_based_access_control {
+    managed                = true
+    admin_group_object_ids = var.admin_group_object_ids
+    azure_rbac_enabled     = true
   }
 
   network_profile {
@@ -97,43 +105,43 @@ resource "azurerm_kubernetes_cluster" "default" {
 }
 
 
-resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
-  name                       = "Application Gateway Logs"
-  target_resource_id         = azurerm_kubernetes_cluster.default.id
-  log_analytics_workspace_id = var.log_analytics_workspace_id
+# resource "azurerm_monitor_diagnostic_setting" "application_gateway" {
+#   name                       = "Application Gateway Logs"
+#   target_resource_id         = azurerm_kubernetes_cluster.default.id
+#   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  enabled_log {
-    category = "kube-apiserver"
-  }
+#   enabled_log {
+#     category = "kube-apiserver"
+#   }
 
-  enabled_log {
-    category = "kube-audit"
-  }
+#   enabled_log {
+#     category = "kube-audit"
+#   }
 
-  enabled_log {
-    category = "kube-audit-admin"
-  }
+#   enabled_log {
+#     category = "kube-audit-admin"
+#   }
 
-  enabled_log {
-    category = "kube-controller-manager"
-  }
+#   enabled_log {
+#     category = "kube-controller-manager"
+#   }
 
-  enabled_log {
-    category = "kube-scheduler"
-  }
+#   enabled_log {
+#     category = "kube-scheduler"
+#   }
 
-  enabled_log {
-    category = "cluster-autoscaler"
-  }
+#   enabled_log {
+#     category = "cluster-autoscaler"
+#   }
 
-  enabled_log {
-    category = "guard"
-  }
+#   enabled_log {
+#     category = "guard"
+#   }
 
-  metric {
-    category = "AllMetrics"
-  }
-}
+#   metric {
+#     category = "AllMetrics"
+#   }
+# }
 
 data "azurerm_public_ip" "default" {
   name                = "agw-${var.root_name}-appgwpip"

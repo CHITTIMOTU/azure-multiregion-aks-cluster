@@ -18,6 +18,10 @@ variable "jumpbox_subnet_id" {
   type = string
 }
 
+variable "Main_hub_subnet_id" {
+  type = string
+}
+
 variable "backup_jumpbox_subnet_id" {
   type = string
 }

@@ -10,7 +10,7 @@ terraform {
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.5.1"
+      version = "2.12.1"
     }
   }
   backend "local" {
@@ -34,15 +34,17 @@ data "azurerm_kubernetes_cluster" "default" {
   resource_group_name = local.resource_group_name
 }
 
-provider "helm" {
-  kubernetes {
-    host = data.azurerm_kubernetes_cluster.default.kube_config[0].host
+# provider "helm" {
+#   kubernetes {
+#     host = data.azurerm_kubernetes_cluster.default.kube_config[0].host
+#     username               = var.username
+#     password               = var.password
 
-    client_certificate     = base64decode(data.azurerm_kubernetes_cluster.default.kube_config[0].client_certificate)
-    client_key             = base64decode(data.azurerm_kubernetes_cluster.default.kube_config[0].client_key)
-    cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.default.kube_config[0].cluster_ca_certificate)
-  }
-}
+#     client_certificate     = base64decode(data.azurerm_kubernetes_cluster.default.kube_config[0].client_certificate)
+#     client_key             = base64decode(data.azurerm_kubernetes_cluster.default.kube_config[0].client_key)
+#     cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.default.kube_config[0].cluster_ca_certificate)
+#   }
+# }
 
 locals {
   awi_namespace = "azure-workload-identity-system"
@@ -51,16 +53,16 @@ locals {
 
 data "azurerm_client_config" "current" {}
 
-resource "helm_release" "awi_webhook" {
-  name       = "azure-workload-identity"
-  chart      = "workload-identity-webhook"
-  repository = "https://azure.github.io/azure-workload-identity/charts"
+# resource "helm_release" "awi_webhook" {
+#   name       = "azure-workload-identity"
+#   chart      = "workload-identity-webhook"
+#   repository = "https://azure.github.io/azure-workload-identity/charts"
 
-  namespace        = local.awi_namespace
-  create_namespace = true
+#   namespace        = local.awi_namespace
+#   create_namespace = true
 
-  set {
-    name  = "azureTenantID"
-    value = data.azurerm_client_config.current.tenant_id
-  }
-}
+#   set {
+#     name  = "azureTenantID"
+#     value = data.azurerm_client_config.current.tenant_id
+#   }
+# }

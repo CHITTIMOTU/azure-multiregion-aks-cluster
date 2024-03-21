@@ -103,6 +103,12 @@ variable "dns_zone_name" {
   default = null
 }
 
+variable "admin_group_object_ids" {
+  description = "(Optional) A list of Object IDs of Azure Active Directory Groups which should have Admin Role on the Cluster."
+  default     = ["bc7ffd30-a56a-4efe-995d-231163f2128b"]
+  type        = list(string)
+}
+
 variable "private_dns_zone_id" {
   description = "Specifies the name of the DNS zone."
   type = string

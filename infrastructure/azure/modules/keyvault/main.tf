@@ -11,7 +11,7 @@ resource "azurerm_key_vault" "default" {
   network_acls {
     bypass                     = "AzureServices"
     default_action             = "Deny"
-    virtual_network_subnet_ids = [var.aks_subnet_id, var.jumpbox_subnet_id, var.backup_jumpbox_subnet_id]
+    virtual_network_subnet_ids = [var.aks_subnet_id, var.jumpbox_subnet_id, var.backup_jumpbox_subnet_id, var.Main_hub_subnet_id]
   }
 
   sku_name = "standard"
@@ -48,22 +48,22 @@ resource "azurerm_key_vault_access_policy" "aks" {
   ]
 }
 
-# resource "azurerm_key_vault_secret" "cosmos" {
-#   name         = "cosmosdb-connection-string"
-#   value        = var.cosmos_connection_string
-#   key_vault_id = azurerm_key_vault.default.id
+resource "azurerm_key_vault_secret" "cosmos" {
+  name         = "cosmosdb-connection-string"
+  value        = var.cosmos_connection_string
+  key_vault_id = azurerm_key_vault.default.id
 
-#   depends_on = [
-#     azurerm_key_vault_access_policy.superadmin
-#   ]
-# }
+  depends_on = [
+    azurerm_key_vault_access_policy.superadmin
+  ]
+}
 
-# resource "azurerm_key_vault_secret" "hello" {
-#   name         = "my-secret"
-#   value        = "hello"
-#   key_vault_id = azurerm_key_vault.default.id
+resource "azurerm_key_vault_secret" "hello" {
+  name         = "my-secret"
+  value        = "hello"
+  key_vault_id = azurerm_key_vault.default.id
 
-#   depends_on = [
-#     azurerm_key_vault_access_policy.superadmin
-#   ]
-# }
+  depends_on = [
+    azurerm_key_vault_access_policy.superadmin
+  ]
+}

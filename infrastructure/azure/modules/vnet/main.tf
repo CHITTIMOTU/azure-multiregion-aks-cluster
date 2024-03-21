@@ -62,6 +62,13 @@ resource "azurerm_subnet" "aks_PodSubnet" {
   virtual_network_name  = azurerm_virtual_network.default.name
   address_prefixes      = var.PodSubnet_address
   service_endpoints     = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+  delegation {
+    name = "delegation"
+
+    service_delegation {
+      name    = "Microsoft.ContainerService/managedClusters"
+    }
+  }
 }
 
 resource "azurerm_subnet" "aks_ApiServer" {
@@ -70,4 +77,11 @@ resource "azurerm_subnet" "aks_ApiServer" {
   virtual_network_name  = azurerm_virtual_network.default.name
   address_prefixes      = var.ApiServer_address
   service_endpoints     = ["Microsoft.AzureCosmosDB", "Microsoft.KeyVault"]
+    delegation {
+    name = "delegation"
+
+    service_delegation {
+      name    = "Microsoft.ContainerService/managedClusters"
+    }
+  }
 }
