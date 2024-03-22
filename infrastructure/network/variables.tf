@@ -27,7 +27,7 @@ variable "main_instance" {
 variable "main_cidr" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.56.0/22"]
+  default     = ["10.120.56.0/21"]
 }
 
 variable "main_Bastion_address" {
@@ -53,17 +53,17 @@ variable "main_ApiServer_address" {
 variable "main_SystemSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.57.0/25"]
+  default     = ["10.120.57.0/24"]
 }
 variable "main_UserSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.57.128/25"]
+  default     = ["10.120.58.0/24"]
 }
 variable "main_PodSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.120.58.0/23"]
+  default     = ["10.120.60.0/22"]
 }
 
 variable "failover_instance" {
@@ -75,7 +75,7 @@ variable "failover_instance" {
 variable "failover_cidr" {
   type        = list
   description = "CIDR address space for failover V-net"
-  default     = ["10.140.56.0/22"]
+  default     = ["10.140.56.0/21"]
 }
 
 variable "failover_Bastion_address" {
@@ -101,17 +101,17 @@ variable "failover_ApiServer_address" {
 variable "failover_SystemSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.57.0/25"]
+  default     = ["10.140.57.0/24"]
 }
 variable "failover_UserSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.57.128/25"]
+  default     = ["10.140.58.0/24"]
 }
 variable "failover_PodSubnet_address" {
   type        = list
   description = "Subnet address space for main V-net"
-  default     = ["10.140.58.0/23"]
+  default     = ["10.140.60.0/22"]
 }
 
 variable "jumbbox_vm_password" {

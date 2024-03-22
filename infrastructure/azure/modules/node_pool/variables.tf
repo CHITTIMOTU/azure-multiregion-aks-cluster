@@ -69,7 +69,6 @@ variable "tags" {
 variable "orchestrator_version" {
   description = "(Optional) Version of Kubernetes used for the Agents. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade)"
   type          = string
-  default       = null
 } 
 
 variable "os_disk_size_gb" {
@@ -132,10 +131,10 @@ variable "node_count" {
   default       = 3
 }
 
-variable resource_group_name {
-  description = "Specifies the name of the resource group."
-  type        = string
-}
+# variable resource_group_name {
+#   description = "Specifies the name of the resource group."
+#   type        = string
+# }
 
 variable "oidc_issuer_enabled" {
   description = " (Optional) Enable or Disable the OIDC issuer URL."

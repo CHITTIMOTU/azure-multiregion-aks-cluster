@@ -32,6 +32,7 @@ resource "azurerm_role_assignment" "private_dns" {
 resource "azurerm_kubernetes_cluster" "default" {
   name                    = "aks-${var.root_name}"
   resource_group_name     = var.resource_group_name
+  kubernetes_version      = var.kubernetes_version
   location                = var.location
   dns_prefix              = "aks-${var.root_name}"
   node_resource_group     = "rg-k8s-${var.root_name}"
@@ -40,14 +41,25 @@ resource "azurerm_kubernetes_cluster" "default" {
   workload_identity_enabled        = true
   private_dns_zone_id     = var.aks_private_dns_zone_id
   local_account_disabled = true
-
-  default_node_pool {
-    name           = var.default_namespace
-    node_count     = var.node_count
-    vm_size        = var.vm_size
-    vnet_subnet_id = var.aks_System_id
+    default_node_pool {
+    name                 = var.system_node_pool_name
+    vm_size              = var.system_node_pool_vm_size
+    vnet_subnet_id       = var.vnet_subnet_id
+    pod_subnet_id        = var.pod_subnet_id
+    zones                = var.system_node_pool_availability_zones
+    orchestrator_version = var.orchestrator_version
+    node_labels          = var.system_node_pool_node_labels
+    # node_taints             = var.system_node_pool_node_taints
+    enable_auto_scaling    = var.system_node_pool_enable_auto_scaling
+    enable_host_encryption = var.system_node_pool_enable_host_encryption
+    enable_node_public_ip  = var.system_node_pool_enable_node_public_ip
+    max_pods               = var.system_node_pool_max_pods
+    max_count              = var.system_node_pool_max_count
+    min_count              = var.system_node_pool_min_count
+    node_count             = var.system_node_pool_node_count
+    os_disk_type           = var.system_node_pool_os_disk_type
+    tags                   = var.tags
   }
-
   ingress_application_gateway {
 
     gateway_name = "agw-${var.root_name}"

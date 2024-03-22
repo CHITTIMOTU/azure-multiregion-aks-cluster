@@ -29,3 +29,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     ]
   }
 }
+
+# az aks nodepool add -g rg-mahb-prod-001 -n nodepool1 --cluster-name aks-mahb-prod-001 --os-sku Ubuntu --pod-subnet-id /subscriptions/524875d7-62d5-42df-8fe5-78822e211bf3/resourceGroups/rg-network-prod-001/providers/Microsoft.Network/virtualNetworks/vnet-network-prod-001/subnets/aks-PodSubnet 
+
+
+# --vnet-subnet-id /subscriptions/524875d7-62d5-42df-8fe5-78822e211bf3/resourceGroups/rg-network-prod-001/providers/Microsoft.Network/virtualNetworks/vnet-network-prod-001/subnets/aks-UserSubnet

@@ -50,10 +50,10 @@ variable "backup_jumpbox_subnet_id" {
   type = string
 }
 
-variable "cosmos_primary_connection_tring" {
-  type      = string
-  sensitive = true
-}
+# variable "cosmos_primary_connection_tring" {
+#   type      = string
+#   sensitive = true
+# }
 
 variable "aks_vm_size" {
   type = string
@@ -194,25 +194,25 @@ variable "user_node_pool_priority" {
 variable "user_node_pool_max_count" {
   description = "(Required) The maximum number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000 and must be greater than or equal to min_count."
   type          = number
-  default       = 10
+  default       = 3
 }
 
 variable "user_node_pool_min_count" {
   description = "(Required) The minimum number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000 and must be less than or equal to max_count."
   type          = number
-  default       = 3
+  default       = 1
 }
 
 variable "user_node_pool_node_count" {
   description = "(Optional) The initial number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000 and must be a value in the range min_count - max_count."
   type          = number
-  default       = 3
+  default       = 1
 }
 
-variable "kubernetes_version" {
+ variable "kubernetes_version" {
   description = "Specifies the AKS Kubernetes version"
   type        = string
-  default       = "1.27.9"
+  default       = "1.28.5"
 }
 
 
@@ -245,13 +245,13 @@ module "aks" {
   resource_group_name = module.group.name
   location            = var.location
   aks_private_dns_zone_id = var.aks_private_dns_zone_id
-
+  orchestrator_version         = var.kubernetes_version
+  kubernetes_version           = var.kubernetes_version
   default_namespace = local.aks_namespace
   vm_size           = var.aks_vm_size
   node_count        = var.aks_node_count
-  aks_System_id     = var.aks_System_id
-  aks_User_id       = var.aks_User_id
-  aks_Pod_id        = var.aks_Pod_id
+  vnet_subnet_id    = var.aks_System_id
+  pod_subnet_id     = var.aks_Pod_id
   gateway_subnet_id = var.gateway_subnet_id
   aks_ApiServer_id  = var.aks_ApiServer_id
   log_analytics_workspace_id = module.log.id
@@ -275,9 +275,10 @@ module "aks" {
 }
 
 
+
 module "node_pool" {
   source = "../modules/node_pool"
-  resource_group_name         = module.group.name
+  # resource_group_name         = module.group.name
   kubernetes_cluster_id       = module.aks.id
   name                         = var.user_node_pool_name
   vm_size                      = var.user_node_pool_vm_size
@@ -319,23 +320,23 @@ module "kv" {
   backup_jumpbox_subnet_id        = var.backup_jumpbox_subnet_id
   Main_hub_subnet_id              = var.Main_hub_subnet_id
   aks_service_principal_object_id = module.app_registration.aks_service_principal_object_id
-  cosmos_connection_string        = var.cosmos_primary_connection_tring
+  # cosmos_connection_string        = var.cosmos_primary_connection_tring
   tags                            = var.tags
 }
 
 
-module "helm" {
-  source                              = "../../helm"
-  # host                                = module.default.host
-  username                            = module.aks.username
-  password                            = module.aks.password
-  # client_key                          = module.aks_cluster.client_key
-  # client_certificate                  = module.aks_cluster.client_certificate
-  # cluster_ca_certificate              = module.aks_cluster.cluster_ca_certificate
-  # namespace                           = var.namespace
-  # service_account_name                = var.service_account_name
-  # email                               = var.email
-  # tenant_id                           = data.azurerm_client_config.current.tenant_id
-  # workload_managed_identity_client_id = azurerm_user_assigned_identity.aks_workload_identity.client_id
-  # nginx_replica_count                 = 3
-}
+# module "helm" {
+#   source                              = "../../helm"
+#   # host                                = module.default.host
+#   username                            = module.aks.username
+#   password                            = module.aks.password
+#   # client_key                          = module.aks_cluster.client_key
+#   # client_certificate                  = module.aks_cluster.client_certificate
+#   # cluster_ca_certificate              = module.aks_cluster.cluster_ca_certificate
+#   # namespace                           = var.namespace
+#   # service_account_name                = var.service_account_name
+#   # email                               = var.email
+#   # tenant_id                           = data.azurerm_client_config.current.tenant_id
+#   # workload_managed_identity_client_id = azurerm_user_assigned_identity.aks_workload_identity.client_id
+#   # nginx_replica_count                 = 3
+# }

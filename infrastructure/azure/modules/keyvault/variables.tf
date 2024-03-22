@@ -30,10 +30,10 @@ variable "aks_service_principal_object_id" {
   type = string
 }
 
-variable "cosmos_connection_string" {
-  type      = string
-  sensitive = true
-}
+# variable "cosmos_connection_string" {
+#   type      = string
+#   sensitive = true
+# }
 
 variable "tags" {
   type = map(string)
