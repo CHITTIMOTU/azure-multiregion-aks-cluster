@@ -54,3 +54,16 @@ module "network_failover" {
   jumbbox_vm_password = var.jumbbox_vm_password
   tags                = local.failover_tags
 }
+
+
+module "storage_account" {
+source                      = "../azure/modules/storage_account"
+location                    = var.main_location
+resource_group_name         = azurerm_resource_group.rg.name
+account_kind                = var.storage_account_kind
+account_tier                = var.storage_account_tier
+replication_type            = var.storage_account_replication_type
+tags                        = var.tags
+environment         = var.environment
+instance            = var.main_instance
+}
