@@ -1,9 +1,5 @@
-locals {
-  root_name = "stg${var.environment}${var.instance}"
-}
-
 resource "azurerm_storage_account" "storage_account" {
-  name                = local.root_name
+  name                = var.name
   resource_group_name = var.resource_group_name
 
   location                 = var.location

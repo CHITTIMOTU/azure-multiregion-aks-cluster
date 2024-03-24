@@ -3,6 +3,10 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "name" {
+  description = "(Required) Specifies the name of the Azure Storage Account"
+  type        = string
+}
 
 variable "location" {
   description = "(Required) Specifies the location of the Azure Storage Account"
@@ -74,12 +78,4 @@ variable "kind" {
 variable "tags" {
   description = "(Optional) Specifies the tags of the Azure Storage Account"
   default     = {}
-}
-
-variable "environment" {
-  type = string
-}
-
-variable "instance" {
-  type = string
 }

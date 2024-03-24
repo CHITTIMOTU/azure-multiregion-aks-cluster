@@ -18,8 +18,15 @@ provider "azurerm" {
 locals {
   main_tags     = { Instance = "Main" }
   failover_tags = { Instance = "Failover" }
+  root_name = "${var.environment}${var.application_name}"
 }
 
+module "rg_terraform" {
+  source    = "./modules/group"
+  root_name = "rg-terraform-${local.storage_name}"
+  location  = local.global_location
+  tags      = local.global_tags
+}
 
 module "network_main" {
   source              = "../azure/network"
@@ -57,13 +64,13 @@ module "network_failover" {
 
 
 module "storage_account" {
-source                      = "../azure/modules/storage_account"
-location                    = var.main_location
-resource_group_name         = azurerm_resource_group.rg.name
+source                      = "./modules/storage_account"
+name                        = "stg${local.storage_name}"
+location                    = var.location
+resource_group_name         = azurerm_resource_group.rg_terraform
 account_kind                = var.storage_account_kind
 account_tier                = var.storage_account_tier
 replication_type            = var.storage_account_replication_type
 tags                        = var.tags
-environment         = var.environment
-instance            = var.main_instance
+
 }
