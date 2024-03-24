@@ -5,8 +5,14 @@ terraform {
       version = "3.95.0"
     }
   }
-  backend "local" {
-    path = "./.workspace/terraform.tfstate"
+  # backend "local" {
+  #   path = "./.workspace/terraform.tfstate"
+  # }
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform-prodmahb"
+    storage_account_name = "stgprodmahb"
+    container_name       = "tfstate-donot-modify-delete"
+    key                  = "network.prod.terraform.tfstate"
   }
 }
 
@@ -22,10 +28,10 @@ locals {
 }
 
 module "rg_terraform" {
-  source    = "./modules/group"
-  root_name = "rg-terraform-${local.storage_name}"
-  location  = local.global_location
-  tags      = local.global_tags
+  source    = "../azure/modules/group"
+  root_name = "terraform-${local.root_name}"
+  location  = var.main_location
+  tags      = var.tags
 }
 
 module "network_main" {
@@ -64,10 +70,10 @@ module "network_failover" {
 
 
 module "storage_account" {
-source                      = "./modules/storage_account"
-name                        = "stg${local.storage_name}"
-location                    = var.location
-resource_group_name         = azurerm_resource_group.rg_terraform
+source                      = "../azure/modules/storage_account"
+name                        = "stg${local.root_name}"
+location                    = var.main_location
+resource_group_name         = module.rg_terraform.name
 account_kind                = var.storage_account_kind
 account_tier                = var.storage_account_tier
 replication_type            = var.storage_account_replication_type

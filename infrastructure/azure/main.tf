@@ -9,8 +9,14 @@ terraform {
       version = "2.22.0"
     }
   }
-  backend "local" {
-    path = "./.workspace/terraform.tfstate"
+  # backend "local" {
+  #   path = "./.workspace/terraform.tfstate"
+  # }
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform-prodmahb"
+    storage_account_name = "stgprodmahb"
+    container_name       = "tfstate-donot-modify-delete"
+    key                  = "azure.prod.terraform.tfstate"
   }
 }
 

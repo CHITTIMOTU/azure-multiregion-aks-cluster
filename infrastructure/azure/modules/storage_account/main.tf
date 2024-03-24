@@ -11,7 +11,7 @@ resource "azurerm_storage_account" "storage_account" {
 
   network_rules {
     default_action             = (length(var.ip_rules) + length(var.virtual_network_subnet_ids)) > 0 ? "Deny" : var.default_action
-    ip_rules                   = var.ip_rules
+    # ip_rules                   = var.ip_rules
     virtual_network_subnet_ids = var.virtual_network_subnet_ids
   }
 
@@ -24,4 +24,10 @@ resource "azurerm_storage_account" "storage_account" {
         tags
     ]
   }
+}
+
+resource "azurerm_storage_container" "tfstate" {
+  name                  = "tfstate-donot-modify-delete"
+  storage_account_name  = azurerm_storage_account.storage_account.name
+  container_access_type = "private"
 }

@@ -122,7 +122,7 @@ variable "user_node_pool_name" {
 variable "user_node_pool_vm_size" {
   description = "(Required) The SKU which should be used for the Virtual Machines used in this Node Pool. Changing this forces a new resource to be created."
   type        = string
-  default     = "Standard_F8s_v2"
+  default     = "Standard_D4lds_v5"
 }
 
 variable "user_node_pool_availability_zones" {
