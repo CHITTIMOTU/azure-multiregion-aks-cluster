@@ -206,7 +206,7 @@ variable "system_node_pool_node_count" {
 
 variable "system_node_pool_vm_size" {
   description = "Specifies the vm size of the system node pool"
-  default     = "Standard_F8s_v2"
+  default     = "Standard_B2s"
   type        = string
 }
 
